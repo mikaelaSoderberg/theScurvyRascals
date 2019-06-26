@@ -229,8 +229,18 @@ public class Main {
                         }
                     }
 
+                    if (y <= 6) {
+                        y = 12;
+
+                        terminal.setCursorPosition(x, y);
+                        terminal.putCharacter(player);
+
+                        terminal.setCursorPosition(xOld, yOld);
+                        terminal.putCharacter(' ');
+                    }
+
 //                  Tvinga ner spelare efter hopp
-                    if (y == 10) {
+                    else if (y == 10 || y == 8) {
                         jumpCount++;
                         if (jumpCount == 4) {
                             y = 12;
@@ -260,9 +270,6 @@ public class Main {
                         y -= 2;
                         terminal.setCursorPosition(xOld, yOld);
                         terminal.putCharacter(' ');
-                        if (y < 6) {
-                            y = 12;
-                        }
                         break;
                     case ArrowDown:
                         y = 12;
