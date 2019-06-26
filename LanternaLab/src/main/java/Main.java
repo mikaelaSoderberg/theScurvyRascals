@@ -163,10 +163,14 @@ public class Main {
                     terminal.setCursorPosition(xMonterOld, yMonsterOld);
                     terminal.putCharacter(' ');
 
-//                  Nya monster och uppdatering poäng
+//                  Nya monster
                     if (xMonster == -1) {
                         randomMonster = randomNumber.nextInt(4);
                         xMonster = 80;
+                    }
+
+//                  Ger poäng
+                    if (xMonster == 16) {
                         points += 1;
                     }
 
