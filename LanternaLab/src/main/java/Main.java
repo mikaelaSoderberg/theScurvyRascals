@@ -60,14 +60,20 @@ public class Main {
         terminal.setCursorVisible(false);
 
 //      Hinder start
-        int xMonster = 80;
-        int yMonster = 12;
+        int xMonster1 = 80;
+        int yMonster1 = 12;
+
+        int xMonster2 = 120;
+        int yMonster2 = 12;
 //        final char monster = '-';
 
         char[] monsters = {0x2665, 0x257E, 0x23F4, 0x2593};
 
         Random randomNumber = new Random();
         int randomMonster = randomNumber.nextInt(4);
+
+        Random randomNumber2 = new Random();
+        int randomMonster2 = randomNumber.nextInt(4);
 
 //      Poängräknare
         int points = 0;
@@ -85,8 +91,11 @@ public class Main {
             int xOld = x;
             int yOld = y;
 
-            int xMonterOld = xMonster;
-            int yMonsterOld = yMonster;
+            int xMonterOld1 = xMonster1;
+            int yMonsterOld1 = yMonster1;
+
+            int xMonterOld2 = xMonster2;
+            int yMonsterOld2 = yMonster2;
 
             KeyStroke keyStroke = null;
 
@@ -96,8 +105,11 @@ public class Main {
 
                 monsterSpeed += 10;
 
-                xMonterOld = xMonster;
-                yMonsterOld = yMonster;
+                xMonterOld1 = xMonster1;
+                yMonsterOld1 = yMonster1;
+
+                xMonterOld2 = xMonster2;
+                yMonsterOld2 = yMonster2;
 
                 xOld = x;
                 yOld = y;
@@ -105,7 +117,10 @@ public class Main {
                 terminal.setCursorPosition(x, y);
                 terminal.putCharacter(player);
 
-                terminal.setCursorPosition(xMonster, yMonster);
+                terminal.setCursorPosition(xMonster1, yMonster1);
+                terminal.putCharacter(monsters[randomMonster]);
+
+                terminal.setCursorPosition(xMonster2, yMonster2);
                 terminal.putCharacter(monsters[randomMonster]);
 
                 //miiljÃ¶n byggs
@@ -155,28 +170,41 @@ public class Main {
                     terminal.setCursorPosition(x, y);
                     terminal.putCharacter(player); //fÃ¶rsvinner annars
 
-                    xMonster--;
+                    xMonster1--;
 
-                    terminal.setCursorPosition(xMonster, yMonster);
+                    xMonster2--;
+
+                    terminal.setCursorPosition(xMonster1, yMonster1);
                     terminal.putCharacter(monsters[randomMonster]);
 
-                    terminal.setCursorPosition(xMonterOld, yMonsterOld);
+                    terminal.setCursorPosition(xMonterOld1, yMonsterOld1);
+                    terminal.putCharacter(' ');
+
+                    terminal.setCursorPosition(xMonster2, yMonster2);
+                    terminal.putCharacter(monsters[randomMonster2]);
+
+                    terminal.setCursorPosition(xMonterOld2, yMonsterOld2);
                     terminal.putCharacter(' ');
 
 //                  Nya monster
-                    if (xMonster == -1) {
+                    if (xMonster1 == -1) {
                         randomMonster = randomNumber.nextInt(4);
-                        xMonster = 80;
+                        xMonster1 = 80;
+                    }
+
+                    else if (xMonster2 == -1) {
+                        randomMonster2 = randomNumber.nextInt(4);
+                        xMonster2 = 120;
                     }
 
 //                  Ger poäng
-                    if (xMonster == 16) {
+                    if (xMonster1 == 16|| xMonster2 == 16) {
                         points += 1;
                     }
 
 
 //                  Spelares död
-                    if (xMonster == x && yMonster == y) {
+                    if (xMonster1 == x && yMonster1 == y) {
                         terminal.setCursorPosition(x, y);
                         terminal.putCharacter(monsters[randomMonster]);
 
