@@ -6,6 +6,7 @@ import com.googlecode.lanterna.terminal.Terminal;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -58,13 +59,15 @@ public class Main {
         terminal.putCharacter(player);
         terminal.setCursorVisible(false);
 
-
 //      Hinder start
         int xMonster = 80;
         int yMonster = 12;
 //        final char monster = '-';
 
         char[] monsters = {0x2665, 0x257E, 0x23F4, 0x2593};
+
+        Random randomNumber = new Random();
+        int randomMonster = randomNumber.nextInt(4);
 
 //      Po‰ngr‰knare
         int points = 0;
@@ -103,7 +106,7 @@ public class Main {
                 terminal.putCharacter(player);
 
                 terminal.setCursorPosition(xMonster, yMonster);
-                terminal.putCharacter(monsters[3]);
+                terminal.putCharacter(monsters[randomMonster]);
 
                 //miilj√∂n byggs
                 for(int xMountain = mountainLeft0x;xMountain<70;xMountain+=12){
@@ -155,13 +158,14 @@ public class Main {
                     xMonster--;
 
                     terminal.setCursorPosition(xMonster, yMonster);
-                    terminal.putCharacter(monsters[3]);
+                    terminal.putCharacter(monsters[randomMonster]);
 
                     terminal.setCursorPosition(xMonterOld, yMonsterOld);
                     terminal.putCharacter(' ');
 
 //                  Nya monster och uppdatering po‰ng
                     if (xMonster == -1) {
+                        randomMonster = randomNumber.nextInt(4);
                         xMonster = 80;
                         points += 1;
                     }
@@ -170,7 +174,7 @@ public class Main {
 //                  Spelares dˆd
                     if (xMonster == x && yMonster == y) {
                         terminal.setCursorPosition(x, y);
-                        terminal.putCharacter(monster);
+                        terminal.putCharacter(monsters[randomMonster]);
 
                         continueReadingInput = false;
                         System.out.println("quit");
