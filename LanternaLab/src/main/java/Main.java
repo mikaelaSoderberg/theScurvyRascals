@@ -10,6 +10,8 @@ public class Main {
         DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
         Terminal terminal = terminalFactory.createTerminal();
 
+
+//      Player
         int x = 17;
         int y = 12;
         final char player = 'O';
@@ -17,12 +19,16 @@ public class Main {
         terminal.putCharacter(player);
         terminal.setCursorVisible(false);
 
+
+//      Hinder start
         int xMonster = 80;
         int yMonster = 12;
         final char monster = '-';
 
-        int count = 0;
+//      Poängräknare
         int points = 0;
+
+//      Hastighet fiender
         int monsterSpeed = 0;
 
         boolean continueReadingInput = true;
@@ -60,6 +66,7 @@ public class Main {
                 terminal.setCursorPosition(xMonster, yMonster);
                 terminal.putCharacter(monster);
 
+//              Monsters framåtrörelse
                 if (monsterSpeed % 100 == 0) {
 
                     terminal.setCursorPosition(x, y);
@@ -73,20 +80,23 @@ public class Main {
                     terminal.setCursorPosition(xMonterOld, yMonsterOld);
                     terminal.putCharacter(' ');
 
+//                  Nya monster och uppdatering poäng
                     if (xMonster == -1) {
                         xMonster = 80;
                         points += 1;
                     }
 
+
+//                  Spelares död
                     if (xMonster == x && yMonster == y) {
                         terminal.setCursorPosition(x, y);
                         terminal.putCharacter(monster);
+
                         continueReadingInput = false;
-                        System.out.println("quit");
 
                         String gameOver = "Game over";
                         String score = "Score: ";
-                        String hej = Integer.toString(points);
+                        String totalPoints = Integer.toString(points);
 
                         for (int i = 0; i < gameOver.length(); i++) {
                             terminal.setCursorPosition((35 + i), 10);
@@ -96,14 +106,16 @@ public class Main {
                             terminal.setCursorPosition((37 + i), 11);
                             terminal.putCharacter(score.charAt((i)));
                         }
-                        for (int i = 0; i < hej.length(); i++) {
+                        for (int i = 0; i < totalPoints.length(); i++) {
                             terminal.setCursorPosition((39 + i), 12);
-                            terminal.putCharacter(hej.charAt(i));
+                            terminal.putCharacter(totalPoints.charAt(i));
                         }
                     }
+
+//                  Tvinga ner spelare efter hopp
                     if (y == 10) {
                         jumpCount++;
-                        if (jumpCount == 4) {
+                        if (jumpCount == 3) {
                             y = 12;
 
                             terminal.setCursorPosition(x, y);
@@ -115,6 +127,8 @@ public class Main {
                     }
                     terminal.flush();
                 }
+
+//              Avsluta efter död
                 if (!continueReadingInput) {
                     break;
                 }
@@ -131,19 +145,16 @@ public class Main {
                         terminal.putCharacter(' ');
                         break;
                     case ArrowDown:
-                        count = 0;
                         y = 12;
                         terminal.setCursorPosition(xOld, yOld);
                         terminal.putCharacter(' ');
                         break;
                     case ArrowLeft:
-                        count = 0;
                         y = 12;
                         terminal.setCursorPosition(xOld, yOld);
                         terminal.putCharacter(' ');
                         break;
                     case ArrowRight:
-                        count = 0;
                         y = 12;
                         terminal.setCursorPosition(xOld, yOld);
                         terminal.putCharacter(' ');
