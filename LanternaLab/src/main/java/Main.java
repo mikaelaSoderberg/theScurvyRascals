@@ -12,19 +12,18 @@ public class Main {
 
         int x = 17;
         int y = 12;
-        final char player = 'X';
+        final char player = 'O';
         terminal.setCursorPosition(x, y);
         terminal.putCharacter(player);
         terminal.setCursorVisible(false);
 
         int xMonster = 80;
         int yMonster = 12;
-        final char monster = 'Y';
+        final char monster = '-';
 
         int count = 0;
         int points = 0;
         int monsterSpeed = 0;
-        int playerJump = 0;
 
         boolean continueReadingInput = true;
 
