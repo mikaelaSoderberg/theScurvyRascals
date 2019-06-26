@@ -12,7 +12,7 @@ public class Main {
 
         int x = 17;
         int y = 12;
-        final char player = 'O';
+        final char player = '¤';
         terminal.setCursorPosition(x, y);
         terminal.putCharacter(player);
         terminal.setCursorVisible(false);
