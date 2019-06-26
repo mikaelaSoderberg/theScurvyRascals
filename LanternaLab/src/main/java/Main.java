@@ -168,7 +168,7 @@ public class Main {
                 if (monsterSpeed % 100 == 0) {
 
                     terminal.setCursorPosition(x, y);
-                    terminal.putCharacter(player); //försvinner annars
+                    terminal.putCharacter(player);
 
                     xMonster1--;
 
@@ -228,6 +228,8 @@ public class Main {
                             terminal.putCharacter(totalPoints.charAt(i));
                         }
                     }
+
+//                  Tvinga ner spelare efter hopp
                     if (y == 10) {
                         jumpCount++;
                         if (jumpCount == 4) {
@@ -258,6 +260,9 @@ public class Main {
                         y -= 2;
                         terminal.setCursorPosition(xOld, yOld);
                         terminal.putCharacter(' ');
+                        if (y < 6) {
+                            y = 12;
+                        }
                         break;
                     case ArrowDown:
                         y = 12;
