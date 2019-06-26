@@ -4,6 +4,8 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -23,7 +25,13 @@ public class Main {
 //      Hinder start
         int xMonster = 80;
         int yMonster = 12;
-        final char monster = '-';
+//        final char monster = '-';
+
+        List<String> monsters = new ArrayList<String>();
+        monsters.add("<0>");
+        monsters.add("^-^");
+        monsters.add("~Z~");
+        monsters.add("^¤^");
 
 //      Poängräknare
         int points = 0;
@@ -64,7 +72,7 @@ public class Main {
                 terminal.putCharacter(player);
 
                 terminal.setCursorPosition(xMonster, yMonster);
-                terminal.putCharacter(monster);
+                terminal.putCharacter(monsters);
 
 //              Monsters framåtrörelse
                 if (monsterSpeed % 100 == 0) {
