@@ -12,14 +12,52 @@ public class Main {
         DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
         Terminal terminal = terminalFactory.createTerminal();
 
+        //Building scenery
+        int mountainLeft0x = 16;
+        int mountainLeft0y = 9;
 
-//      Player
+        int mountainLeft1x = 17;
+        int mountainLeft1y = 8;
+
+        int mountainLeft2x = 18;
+        int mountainLeft2y = 7;
+
+        int mountainLeft3x = 19;
+        int mountainLeft3y = 6;
+
+        int mountainRight0x = 23;
+        int mountainRight0y = 9;
+
+        int mountainRight1x = 22;
+        int mountainRight1y = 8;
+
+        int mountainRight2x = 21;
+        int mountainRight2y = 7;
+
+        int mountainRight3x = 20;
+        int mountainRight3y = 6;
+
+        int birdx0 = 21;
+        int birdy0 = 4;
+
+        int birdx1 = 24;
+        int birdy1 = 3;
+
+        final char mountainLeft = '/';
+        final char mountainRight = '\\'; //m√•ste vara s√• f√∂r att escapea fr√•n kommandot \.
+        final char bird = '~';
+
+        //terminal.setCursorPosition(mountainLeft,mountain1y);
+        //terminal.putCharacter(mountain);
+        //terminal.setCursorVisible(false);
+
         int x = 17;
         int y = 12;
         final char player = '\u2117';
         terminal.setCursorPosition(x, y);
         terminal.putCharacter(player);
         terminal.setCursorVisible(false);
+
 
 //      Hinder start
         int xMonster = 80;
@@ -30,8 +68,6 @@ public class Main {
 
 //      Po‰ngr‰knare
         int points = 0;
-
-//      Hastighet fiender
         int monsterSpeed = 0;
 
         boolean continueReadingInput = true;
@@ -69,11 +105,52 @@ public class Main {
                 terminal.setCursorPosition(xMonster, yMonster);
                 terminal.putCharacter(monsters[3]);
 
-//              Monsters framÂtrˆrelse
+                //miilj√∂n byggs
+                for(int xMountain = mountainLeft0x;xMountain<70;xMountain+=12){
+                    terminal.setCursorPosition(xMountain,mountainLeft0y);
+                    terminal.putCharacter(mountainLeft);
+                }
+                for(int xMountain = mountainLeft1x;xMountain<70;xMountain+=6){
+                    terminal.setCursorPosition(xMountain,mountainLeft1y);
+                    terminal.putCharacter(mountainLeft);
+                }
+                for(int xMountain = mountainLeft2x;xMountain<70;xMountain+=6){
+                    terminal.setCursorPosition(xMountain,mountainLeft2y);
+                    terminal.putCharacter(mountainLeft);
+                }
+                for(int xMountain = mountainLeft3x;xMountain<70;xMountain+=6){
+                    terminal.setCursorPosition(xMountain,mountainLeft3y);
+                    terminal.putCharacter(mountainLeft);
+                }
+                for(int xMountain = mountainRight0x;xMountain<77;xMountain+=12){
+                    terminal.setCursorPosition(xMountain,mountainRight0y);
+                    terminal.putCharacter(mountainRight);
+                }
+                for(int xMountain = mountainRight1x;xMountain<75;xMountain+=6){
+                    terminal.setCursorPosition(xMountain,mountainRight1y);
+                    terminal.putCharacter(mountainRight);
+                }
+                for(int xMountain = mountainRight2x;xMountain<70;xMountain+=6){
+                    terminal.setCursorPosition(xMountain,mountainRight2y);
+                    terminal.putCharacter(mountainRight);
+                }
+                for(int xMountain = mountainRight3x;xMountain<70;xMountain+=6){
+                    terminal.setCursorPosition(xMountain,mountainRight3y);
+                    terminal.putCharacter(mountainRight);
+                }
+                for(int xbird = birdx0;xbird<70;xbird+=13){
+                    terminal.setCursorPosition(xbird,birdy0);
+                    terminal.putCharacter(bird);
+                }
+                for(int xbird = birdx1;xbird<70;xbird+=15){
+                    terminal.setCursorPosition(xbird,birdy1);
+                    terminal.putCharacter(bird);
+                }
+
                 if (monsterSpeed % 100 == 0) {
 
                     terminal.setCursorPosition(x, y);
-                    terminal.putCharacter(player);
+                    terminal.putCharacter(player); //f√∂rsvinner annars
 
                     xMonster--;
 
@@ -93,9 +170,10 @@ public class Main {
 //                  Spelares dˆd
                     if (xMonster == x && yMonster == y) {
                         terminal.setCursorPosition(x, y);
-                        terminal.putCharacter(monsters[0]);
+                        terminal.putCharacter(monster);
 
                         continueReadingInput = false;
+                        System.out.println("quit");
 
                         String gameOver = "Game over";
                         String score = "Score: ";
@@ -114,11 +192,9 @@ public class Main {
                             terminal.putCharacter(totalPoints.charAt(i));
                         }
                     }
-
-//                  Tvinga ner spelare efter hopp
                     if (y == 10) {
                         jumpCount++;
-                        if (jumpCount == 3) {
+                        if (jumpCount == 4) {
                             y = 12;
 
                             terminal.setCursorPosition(x, y);
