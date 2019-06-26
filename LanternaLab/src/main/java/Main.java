@@ -16,24 +16,19 @@ public class Main {
 //      Player
         int x = 17;
         int y = 12;
-        final char player = 'O';
+        final char player = '\u2117';
         terminal.setCursorPosition(x, y);
         terminal.putCharacter(player);
         terminal.setCursorVisible(false);
-
 
 //      Hinder start
         int xMonster = 80;
         int yMonster = 12;
 //        final char monster = '-';
 
-        List<String> monsters = new ArrayList<String>();
-        monsters.add("<0>");
-        monsters.add("^-^");
-        monsters.add("~Z~");
-        monsters.add("^Â¤^");
+        char[] monsters = {0x2665, 0x257E, 0x23F4, 0x2593};
 
-//      PoÃ¤ngrÃ¤knare
+//      Poängräknare
         int points = 0;
 
 //      Hastighet fiender
@@ -72,9 +67,9 @@ public class Main {
                 terminal.putCharacter(player);
 
                 terminal.setCursorPosition(xMonster, yMonster);
-                terminal.putCharacter(monsters);
+                terminal.putCharacter(monsters[3]);
 
-//              Monsters framÃ¥trÃ¶relse
+//              Monsters framåtrörelse
                 if (monsterSpeed % 100 == 0) {
 
                     terminal.setCursorPosition(x, y);
@@ -83,22 +78,22 @@ public class Main {
                     xMonster--;
 
                     terminal.setCursorPosition(xMonster, yMonster);
-                    terminal.putCharacter(monster);
+                    terminal.putCharacter(monsters[3]);
 
                     terminal.setCursorPosition(xMonterOld, yMonsterOld);
                     terminal.putCharacter(' ');
 
-//                  Nya monster och uppdatering poÃ¤ng
+//                  Nya monster och uppdatering poäng
                     if (xMonster == -1) {
                         xMonster = 80;
                         points += 1;
                     }
 
 
-//                  Spelares dÃ¶d
+//                  Spelares död
                     if (xMonster == x && yMonster == y) {
                         terminal.setCursorPosition(x, y);
-                        terminal.putCharacter(monster);
+                        terminal.putCharacter(monsters[0]);
 
                         continueReadingInput = false;
 
@@ -136,7 +131,7 @@ public class Main {
                     terminal.flush();
                 }
 
-//              Avsluta efter dÃ¶d
+//              Avsluta efter död
                 if (!continueReadingInput) {
                     break;
                 }
