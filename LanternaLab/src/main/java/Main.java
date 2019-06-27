@@ -54,7 +54,7 @@ public class Main {
 
         int x = 17;
         int y = 12;
-        final char player = '\u2117';
+        final char player = 0x263B;
         terminal.setCursorPosition(x, y);
         terminal.putCharacter(player);
         terminal.setCursorVisible(false);
@@ -65,15 +65,23 @@ public class Main {
 
         int xMonster2 = 120;
         int yMonster2 = 12;
-//        final char monster = '-';
 
-        char[] monsters = {0x2665, 0x257E, 0x23F4, 0x2593};
+        char[] monsters = {0x25d8, 0x257E, 0x23F4, 0x2593};
+
+        // Life variables
+        int xLife = 100;
+        int yLife = 10;
+        final char lifeChar = 0x2665;
+        int maxLife = 4;
+        int life = 1;
 
         Random randomNumber = new Random();
         int randomMonster = randomNumber.nextInt(4);
 
         Random randomNumber2 = new Random();
         int randomMonster2 = randomNumber.nextInt(4);
+
+        int randomLife;
 
 //      Poängräknare
         int points = 0;
@@ -97,6 +105,10 @@ public class Main {
             int xMonterOld2 = xMonster2;
             int yMonsterOld2 = yMonster2;
 
+            // Initiate old positions of extra-life
+            int xLifeOld;
+            int yLifeOld;
+
             KeyStroke keyStroke = null;
 
             do {
@@ -114,6 +126,10 @@ public class Main {
                 xOld = x;
                 yOld = y;
 
+                // Save its old position
+                xLifeOld = xLife;
+                yLifeOld = yLife;
+
                 terminal.setCursorPosition(x, y);
                 terminal.putCharacter(player);
 
@@ -121,7 +137,30 @@ public class Main {
                 terminal.putCharacter(monsters[randomMonster]);
 
                 terminal.setCursorPosition(xMonster2, yMonster2);
-                terminal.putCharacter(monsters[randomMonster]);
+                terminal.putCharacter(monsters[randomMonster2]);
+
+                String pointcount = "Points: " + points;
+                for (int i = 0; i < pointcount.length(); i++) {
+                    terminal.setCursorPosition((10 + i), 20);
+                    terminal.putCharacter(pointcount.charAt((i)));
+                }
+
+                // Show lives
+                String lifeCount = "Health: ";
+                for (int i = 0; i < lifeCount.length(); i++) {
+                    terminal.setCursorPosition((10 + i), 21);
+                    terminal.putCharacter(lifeCount.charAt((i)));
+                }
+                for (int i = 1; i <= life; i++) {
+                    terminal.setCursorPosition((18 + i), 21);
+                    terminal.putCharacter(lifeChar);
+                }
+
+//                String lifePrintOut = "Lives: ";
+//                for (int i = 0; i < life.length(); i++) {
+//                    terminal.setCursorPosition((10 + i), 21);
+//                    terminal.putCharacter(life.charAt((i)));
+//                }
 
                 //miiljÃ¶n byggs
                 for(int xMountain = mountainLeft0x;xMountain<70;xMountain+=12){
@@ -165,6 +204,10 @@ public class Main {
                     terminal.putCharacter(bird);
                 }
 
+                // Print out extra-life
+                terminal.setCursorPosition(xLife, yLife);
+                terminal.putCharacter(lifeChar);
+
                 if (monsterSpeed % 100 == 0) {
 
                     terminal.setCursorPosition(x, y);
@@ -173,6 +216,8 @@ public class Main {
                     xMonster1--;
 
                     xMonster2--;
+
+                    xLife--;
 
                     terminal.setCursorPosition(xMonster1, yMonster1);
                     terminal.putCharacter(monsters[randomMonster]);
@@ -186,15 +231,37 @@ public class Main {
                     terminal.setCursorPosition(xMonterOld2, yMonsterOld2);
                     terminal.putCharacter(' ');
 
+                    // Print out position of extra-life
+                    terminal.setCursorPosition(xLife, yLife);
+                    terminal.putCharacter(lifeChar);
+                    // Remove the old positions of extra-life
+                    terminal.setCursorPosition(xLifeOld, yLifeOld);
+                    terminal.putCharacter(' ');
+
 //                  Nya monster
                     if (xMonster1 == -1) {
                         randomMonster = randomNumber.nextInt(4);
                         xMonster1 = 80;
                     }
-
                     else if (xMonster2 == -1) {
                         randomMonster2 = randomNumber.nextInt(4);
                         xMonster2 = 120;
+                    }
+
+                    // Catching an extra-life
+                    if (xLife == x && yLife == y) {
+                        life++;
+                        randomLife = randomNumber.nextInt((200 + 100) + 100);
+                        xLife = randomLife;
+                    }
+                    // Making sure that number of lives <= max number of lives
+                    if (life > maxLife) {
+                        life = maxLife;
+                    }
+                    // Reset position of extra-life
+                    if (xLife == -1) {
+                        randomLife = randomNumber.nextInt((200 + 100) + 100);
+                        xLife = randomLife;
                     }
 
 //                  Ger poäng
@@ -203,29 +270,41 @@ public class Main {
                     }
 
 
-//                  Spelares död
-                    if (xMonster1 == x && yMonster1 == y) {
-                        terminal.setCursorPosition(x, y);
-                        terminal.putCharacter(monsters[randomMonster]);
+//                  Spelarens död
+                    if ((xMonster1 == x && yMonster1 == y) || (xMonster2 == x && yMonster2 == y)) {
+                        // Subtract one life
+                        life--;
+                        points--;
 
-                        continueReadingInput = false;
-                        System.out.println("quit");
-
-                        String gameOver = "Game over";
-                        String score = "Score: ";
-                        String totalPoints = Integer.toString(points);
-
-                        for (int i = 0; i < gameOver.length(); i++) {
-                            terminal.setCursorPosition((35 + i), 10);
-                            terminal.putCharacter(gameOver.charAt((i)));
+                        // Remove one life from counter
+                        for (int i = 1; i <= life; i++) {
+                            terminal.setCursorPosition((18 + life + i), 21);
+                            terminal.putCharacter(' ');
                         }
-                        for (int i = 0; i < score.length(); i++) {
-                            terminal.setCursorPosition((37 + i), 11);
-                            terminal.putCharacter(score.charAt((i)));
-                        }
-                        for (int i = 0; i < totalPoints.length(); i++) {
-                            terminal.setCursorPosition((39 + i), 12);
-                            terminal.putCharacter(totalPoints.charAt(i));
+
+                        if (life == 0) {
+
+                            continueReadingInput = false;
+                            System.out.println("quit");
+
+                            terminal.clearScreen();
+
+                            String gameOver = "Game over";
+                            String score = "Score: ";
+                            String totalPoints = Integer.toString(points);
+
+                            for (int i = 0; i < gameOver.length(); i++) {
+                                terminal.setCursorPosition((35 + i), 10);
+                                terminal.putCharacter(gameOver.charAt((i)));
+                            }
+                            for (int i = 0; i < score.length(); i++) {
+                                terminal.setCursorPosition((37 + i), 11);
+                                terminal.putCharacter(score.charAt((i)));
+                            }
+                            for (int i = 0; i < totalPoints.length(); i++) {
+                                terminal.setCursorPosition((39 + i), 12);
+                                terminal.putCharacter(totalPoints.charAt(i));
+                            }
                         }
                     }
 
