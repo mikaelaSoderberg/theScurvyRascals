@@ -22,6 +22,59 @@ public class Main {
         DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
         Terminal terminal = terminalFactory.createTerminal();
 
+        String welcome = "Welcome to our JumpingGame!";
+        for (int i = 0; i < welcome.length(); i++) {
+            terminal.setCursorPosition((24 + i), 6);
+            terminal.putCharacter(welcome.charAt((i)));
+        }
+        String instruction = "Use the ArrowUp-key to jump over your enemies";
+        for (int i = 0; i < instruction.length(); i++) {
+            terminal.setCursorPosition((14 + i), 7);
+            terminal.putCharacter(instruction.charAt((i)));
+        }
+
+        String lives = " or to pick up extra lives.";
+        for (int i = 0; i < lives.length(); i++) {
+            terminal.setCursorPosition((24 + i), 8);
+            terminal.putCharacter(lives.charAt((i)));
+        }
+
+        String develop = "This game was developed by theScurvyRascals.";
+        for (int i = 0; i < develop.length(); i++) {
+            terminal.setCursorPosition((16 + i), 18);
+            terminal.putCharacter(develop.charAt((i)));
+        }
+
+        String difficulty = "But first, choose your level 1 (easy) or 2 (hard): ";
+        for (int i = 0; i < difficulty.length(); i++) {
+            terminal.setCursorPosition((12 + i), 10);
+            terminal.putCharacter(difficulty.charAt((i)));
+        }
+
+
+        int levelChoice = 0;
+
+        KeyStroke keyStroke1 = null;
+        do {
+            Thread.sleep(5); // might throw InterruptedException
+            keyStroke1 = terminal.pollInput();
+        } while (keyStroke1 == null);
+
+        char c1 = keyStroke1.getCharacter(); // used Character, not char because it might be null
+
+        switch (c1) {
+            case '1':
+                levelChoice = 50;
+                break;
+            case '2':
+                levelChoice = 100;
+                break;
+            default:
+                break;
+        }
+
+        terminal.clearScreen();
+
         //Building scenery
         int mountainLeft0x = 16;
         int mountainLeft0y = 9;
@@ -62,6 +115,7 @@ public class Main {
         int x = 17;
         int y = 12;
         final char player = 0x263B;
+        terminal.setForegroundColor(TextColor.ANSI.YELLOW);
         terminal.setCursorPosition(x, y);
         terminal.putCharacter(player);
         terminal.setCursorVisible(false);
@@ -122,7 +176,7 @@ public class Main {
                 Thread.sleep(5); // might throw InterruptedException
                 keyStroke = terminal.pollInput();
 
-                monsterSpeed += 10;
+                monsterSpeed += levelChoice;
 
                 xMonterOld1 = xMonster1;
                 yMonsterOld1 = yMonster1;
@@ -149,6 +203,20 @@ public class Main {
                 xLifeOld = xLife;
                 yLifeOld = yLife;
 
+//              Moves player 10 steps for every 20 points
+                if (points >= 10 && points < 19) {
+                    x = 28;
+                }
+                else if (points >= 20 && points < 29) {
+                    x = 38;
+                }
+                else if (points >=30) {
+                    x = 48;
+                }
+
+                terminal.setCursorPosition(xOld, yOld);
+                terminal.putCharacter(' ');
+
                 terminal.setCursorPosition(x, y);
                 terminal.putCharacter(player);
 
@@ -165,7 +233,7 @@ public class Main {
                 }
 
                 // Show lives
-                String lifeCount = "Health: ";
+                String lifeCount = "Health:";
                 for (int i = 0; i < lifeCount.length(); i++) {
                     terminal.setCursorPosition((10 + i), 21);
                     terminal.putCharacter(lifeCount.charAt((i)));
@@ -175,7 +243,7 @@ public class Main {
                     terminal.putCharacter(lifeChar);
                 }
 
-                //miiljön byggs
+                //miljön byggs
                 for(int xMountain = mountainLeft0x-(sceneryMover/50);xMountain<80;xMountain+=12){
                     terminal.setCursorPosition(xMountain,mountainLeft0y);
                     if(xMountain<1){
@@ -323,7 +391,7 @@ public class Main {
                 terminal.setCursorPosition(xLife, yLife);
                 terminal.putCharacter(lifeChar);
 
-                if (monsterSpeed % 100 == 0) {
+                if (monsterSpeed % 500 == 0) {
 
                     terminal.setCursorPosition(x, y);
                     terminal.putCharacter(player);
@@ -368,7 +436,7 @@ public class Main {
                     // Catching an extra-life
                     if (xLife == x && yLife == y) {
                         life++;
-                        randomLife = randomNumber.nextInt(200) + 100;
+                        randomLife = randomNumber.nextInt(400) + 100;
                         xLife = randomLife;
                     }
                     // Making sure that number of lives <= max number of lives
@@ -377,12 +445,12 @@ public class Main {
                     }
                     // Reset position of extra-life
                     if (xLife == -1) {
-                        randomLife = randomNumber.nextInt(200) + 100;
+                        randomLife = randomNumber.nextInt(400) + 100;
                         xLife = randomLife;
                     }
 
 //                  Ger poäng
-                    if (xMonster1 == 16|| xMonster2 == 16) {
+                    if (xMonster1 == (x-1)|| xMonster2 == (x-1)) {
                         points += 1;
                     }
 
