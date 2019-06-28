@@ -18,9 +18,16 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
+
     public static void main(String[] args) throws Exception {
+
+
         DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
         Terminal terminal = terminalFactory.createTerminal();
+
+        int levelChoice = 0;
+
+        terminal.clearScreen();
 
         String welcome = "Welcome to our JumpingGame!";
         for (int i = 0; i < welcome.length(); i++) {
@@ -51,9 +58,6 @@ public class Main {
             terminal.putCharacter(difficulty.charAt((i)));
         }
 
-
-        int levelChoice = 0;
-
         KeyStroke keyStroke1 = null;
         do {
             Thread.sleep(5); // might throw InterruptedException
@@ -72,8 +76,8 @@ public class Main {
             default:
                 break;
         }
-
         terminal.clearScreen();
+
 
         //Building scenery
         int mountainLeft0x = 16;
@@ -112,11 +116,10 @@ public class Main {
 
         int sceneryMover = 0;
 
-        int x = 17;
-        int y = 12;
+        int xPlayer = 17;
+        int yPlayer = 12;
         final char player = 0x263B;
-        terminal.setForegroundColor(TextColor.ANSI.YELLOW);
-        terminal.setCursorPosition(x, y);
+        terminal.setCursorPosition(xPlayer, yPlayer);
         terminal.putCharacter(player);
         terminal.setCursorVisible(false);
 
@@ -133,7 +136,7 @@ public class Main {
         int xLife = 100;
         int yLife = 10;
         final char lifeChar = 0x2665;
-        int maxLife = 4;
+        final int maxLife = 4;
         int life = 1;
 
         Random randomNumber = new Random();
@@ -157,8 +160,8 @@ public class Main {
 
             int jumpCount = 0;
 
-            int xOld = x;
-            int yOld = y;
+            int xOld = xPlayer;
+            int yOld = yPlayer;
 
             int xMonterOld1 = xMonster1;
             int yMonsterOld1 = yMonster1;
@@ -184,8 +187,8 @@ public class Main {
                 xMonterOld2 = xMonster2;
                 yMonsterOld2 = yMonster2;
 
-                xOld = x;
-                yOld = y;
+                xOld = xPlayer;
+                yOld = yPlayer;
 
                 char overground = '^';
                 for (int i = 1; i <= 80; i++) {
@@ -203,21 +206,22 @@ public class Main {
                 xLifeOld = xLife;
                 yLifeOld = yLife;
 
-//              Moves player 10 steps for every 20 points
+//              Moves player 10 steps for every 10 points
                 if (points >= 10 && points < 19) {
-                    x = 28;
-                }
-                else if (points >= 20 && points < 29) {
-                    x = 38;
-                }
-                else if (points >=30) {
-                    x = 48;
+                    xPlayer = 28;
+                    terminal.setForegroundColor(TextColor.ANSI.CYAN);
+                } else if (points >= 20 && points < 29) {
+                    xPlayer = 38;
+                    terminal.setForegroundColor(TextColor.ANSI.YELLOW);
+                } else if (points >= 30) {
+                    xPlayer = 48;
+                    terminal.setForegroundColor(TextColor.ANSI.RED);
                 }
 
                 terminal.setCursorPosition(xOld, yOld);
                 terminal.putCharacter(' ');
 
-                terminal.setCursorPosition(x, y);
+                terminal.setCursorPosition(xPlayer, yPlayer);
                 terminal.putCharacter(player);
 
                 terminal.setCursorPosition(xMonster1, yMonster1);
@@ -239,110 +243,100 @@ public class Main {
                     terminal.putCharacter(lifeCount.charAt((i)));
                 }
                 for (int i = 1; i <= life; i++) {
-                    terminal.setCursorPosition((18 + i), 21);
+                    terminal.setCursorPosition((17 + i), 21);
                     terminal.putCharacter(lifeChar);
                 }
 
                 //miljön byggs
-                for(int xMountain = mountainLeft0x-(sceneryMover/50);xMountain<80;xMountain+=12){
-                    terminal.setCursorPosition(xMountain,mountainLeft0y);
-                    if(xMountain<1){
+                for (int xMountain = mountainLeft0x - (sceneryMover / 50); xMountain < 80; xMountain += 12) {
+                    terminal.setCursorPosition(xMountain, mountainLeft0y);
+                    if (xMountain < 1) {
                         terminal.putCharacter(' ');
-                    }
-                    else{
+                    } else {
                         terminal.putCharacter(mountainLeft);
                     }
 
                 }
-                for(int xMountain = mountainLeft1x-(sceneryMover/50);xMountain<80;xMountain+=6){
-                    terminal.setCursorPosition(xMountain,mountainLeft1y);
-                    if(xMountain<1){
+                for (int xMountain = mountainLeft1x - (sceneryMover / 50); xMountain < 80; xMountain += 6) {
+                    terminal.setCursorPosition(xMountain, mountainLeft1y);
+                    if (xMountain < 1) {
                         terminal.putCharacter(' ');
-                    }
-                    else{
+                    } else {
                         terminal.putCharacter(mountainLeft);
                     }
                 }
-                for(int xMountain = mountainLeft2x-(sceneryMover/50);xMountain<80;xMountain+=6){
-                    terminal.setCursorPosition(xMountain,mountainLeft2y);
-                    if(xMountain<1){
+                for (int xMountain = mountainLeft2x - (sceneryMover / 50); xMountain < 80; xMountain += 6) {
+                    terminal.setCursorPosition(xMountain, mountainLeft2y);
+                    if (xMountain < 1) {
                         terminal.putCharacter(' ');
-                    }
-                    else{
+                    } else {
                         terminal.putCharacter(mountainLeft);
                     }
                 }
-                for(int xMountain = mountainLeft3x-(sceneryMover/50);xMountain<80;xMountain+=6){
-                    terminal.setCursorPosition(xMountain,mountainLeft3y);
-                    if(xMountain<1){
+                for (int xMountain = mountainLeft3x - (sceneryMover / 50); xMountain < 80; xMountain += 6) {
+                    terminal.setCursorPosition(xMountain, mountainLeft3y);
+                    if (xMountain < 1) {
                         terminal.putCharacter(' ');
-                    }
-                    else{
+                    } else {
                         terminal.putCharacter(mountainLeft);
                     }
 
                 }
-                for(int xMountain = mountainRight0x-(sceneryMover/50);xMountain<80;xMountain+=12){
-                    terminal.setCursorPosition(xMountain,mountainRight0y);
-                    if(xMountain<1){
+                for (int xMountain = mountainRight0x - (sceneryMover / 50); xMountain < 80; xMountain += 12) {
+                    terminal.setCursorPosition(xMountain, mountainRight0y);
+                    if (xMountain < 1) {
                         terminal.putCharacter(' ');
-                    }
-                    else{
+                    } else {
                         terminal.putCharacter(mountainRight);
                     }
                     //terminal.putCharacter(mountainRight);
                 }
-                for(int xMountain = mountainRight1x-(sceneryMover/50);xMountain<80;xMountain+=6){
-                    terminal.setCursorPosition(xMountain,mountainRight1y);
-                    if(xMountain<1){
+                for (int xMountain = mountainRight1x - (sceneryMover / 50); xMountain < 80; xMountain += 6) {
+                    terminal.setCursorPosition(xMountain, mountainRight1y);
+                    if (xMountain < 1) {
                         terminal.putCharacter(' ');
-                    }
-                    else{
+                    } else {
                         terminal.putCharacter(mountainRight);
                     }
                     //terminal.putCharacter(mountainRight);
                 }
-                for(int xMountain = mountainRight2x-(sceneryMover/50);xMountain<80;xMountain+=6){
-                    terminal.setCursorPosition(xMountain,mountainRight2y);
-                    if(xMountain<1){
+                for (int xMountain = mountainRight2x - (sceneryMover / 50); xMountain < 80; xMountain += 6) {
+                    terminal.setCursorPosition(xMountain, mountainRight2y);
+                    if (xMountain < 1) {
                         terminal.putCharacter(' ');
-                    }
-                    else{
+                    } else {
                         terminal.putCharacter(mountainRight);
                     }
                     //terminal.putCharacter(mountainRight);
                 }
-                for(int xMountain = mountainRight3x-(sceneryMover/50);xMountain<80;xMountain+=6){
-                    terminal.setCursorPosition(xMountain,mountainRight3y);
-                    if(xMountain<1){
+                for (int xMountain = mountainRight3x - (sceneryMover / 50); xMountain < 80; xMountain += 6) {
+                    terminal.setCursorPosition(xMountain, mountainRight3y);
+                    if (xMountain < 1) {
                         terminal.putCharacter(' ');
-                    }
-                    else{
+                    } else {
                         terminal.putCharacter(mountainRight);
                     }
                     //terminal.putCharacter(mountainRight);
                 }
-                for(int xbird = birdx0+(sceneryMover/25);xbird<80;xbird+=13){
-                    terminal.setCursorPosition(xbird,birdy0);
-                    if(xbird<1){
+                for (int xbird = birdx0 + (sceneryMover / 25); xbird < 80; xbird += 13) {
+                    terminal.setCursorPosition(xbird, birdy0);
+                    if (xbird < 1) {
                         terminal.putCharacter(' ');
-                    }
-                    else{
+                    } else {
                         terminal.putCharacter(bird);
                     }
                 }
-                for(int xbird = birdx1+(sceneryMover/25);xbird<80;xbird+=15){
-                    terminal.setCursorPosition(xbird,birdy1);
-                    if(xbird<1){
+                for (int xbird = birdx1 + (sceneryMover / 25); xbird < 80; xbird += 15) {
+                    terminal.setCursorPosition(xbird, birdy1);
+                    if (xbird < 1) {
                         terminal.putCharacter(' ');
-                    }
-                    else{
+                    } else {
                         terminal.putCharacter(bird);
                     }
                     //terminal.putCharacter(bird);
                 }
 
-                if(sceneryMover%50==0) {
+                if (sceneryMover % 50 == 0) {
                     for (int xMountain2 = mountainLeft0x - (sceneryMover / 50) + 1; xMountain2 < 80; xMountain2 += 12) {
                         terminal.setCursorPosition(xMountain2, mountainLeft0y);
                         terminal.putCharacter(' ');
@@ -376,13 +370,13 @@ public class Main {
                         terminal.putCharacter(' ');
                     }
                 }
-                if (sceneryMover%25==0){
-                    for(int xbird = birdx0+(sceneryMover/25)-1;xbird<80;xbird+=13){
-                        terminal.setCursorPosition(xbird,birdy0);
+                if (sceneryMover % 25 == 0) {
+                    for (int xbird = birdx0 + (sceneryMover / 25) - 1; xbird < 80; xbird += 13) {
+                        terminal.setCursorPosition(xbird, birdy0);
                         terminal.putCharacter(' ');
                     }
-                    for(int xbird = birdx1+(sceneryMover/25)-1;xbird<80;xbird+=15){
-                        terminal.setCursorPosition(xbird,birdy1);
+                    for (int xbird = birdx1 + (sceneryMover / 25) - 1; xbird < 80; xbird += 15) {
+                        terminal.setCursorPosition(xbird, birdy1);
                         terminal.putCharacter(' ');
                     }
                 }
@@ -393,7 +387,7 @@ public class Main {
 
                 if (monsterSpeed % 500 == 0) {
 
-                    terminal.setCursorPosition(x, y);
+                    terminal.setCursorPosition(xPlayer, yPlayer);
                     terminal.putCharacter(player);
 
                     xMonster1--;
@@ -427,14 +421,13 @@ public class Main {
                     if (xMonster1 == -1) {
                         randomMonster = randomNumber.nextInt(4);
                         xMonster1 = 80;
-                    }
-                    else if (xMonster2 == -1) {
+                    } else if (xMonster2 == -1) {
                         randomMonster2 = randomNumber.nextInt(4);
                         xMonster2 = 120;
                     }
 
                     // Catching an extra-life
-                    if (xLife == x && yLife == y) {
+                    if (xLife == xPlayer && yLife == yPlayer) {
                         life++;
                         randomLife = randomNumber.nextInt(400) + 100;
                         xLife = randomLife;
@@ -450,33 +443,30 @@ public class Main {
                     }
 
 //                  Ger poäng
-                    if (xMonster1 == (x-1)|| xMonster2 == (x-1)) {
+                    if ((xMonster1 == (xPlayer) && yMonster1 != yPlayer) || (xMonster2 == (xPlayer) && yMonster1 != yPlayer)) {
                         points += 1;
                     }
 
-
 //                  Spelarens död
-                    if ((xMonster1 == x && yMonster1 == y) || (xMonster2 == x && yMonster2 == y)) {
+                    if ((xMonster1 == xPlayer && yMonster1 == yPlayer) || (xMonster2 == xPlayer && yMonster2 == yPlayer)) {
                         // Subtract one life
                         life--;
-                        points--;
 
                         // Remove one life from counter
                         for (int i = 1; i <= life; i++) {
-                            terminal.setCursorPosition((18 + life + i), 21);
+                            terminal.setCursorPosition((17 + life + i), 21);
                             terminal.putCharacter(' ');
                         }
 
                         if (life == 0) {
 
                             continueReadingInput = false;
-                            System.out.println("quit");
 
                             terminal.clearScreen();
 
                             String gameOver = "Game over";
                             String score = "Score: ";
-                            String totalPoints = Integer.toString(points);
+
 
                             for (int i = 0; i < gameOver.length(); i++) {
                                 terminal.setCursorPosition((35 + i), 10);
@@ -486,17 +476,27 @@ public class Main {
                                 terminal.setCursorPosition((37 + i), 11);
                                 terminal.putCharacter(score.charAt((i)));
                             }
-                            for (int i = 0; i < totalPoints.length(); i++) {
-                                terminal.setCursorPosition((39 + i), 12);
-                                terminal.putCharacter(totalPoints.charAt(i));
+
+                            if (points == 0) {
+                                String totalPointsZero = "n00b";
+                                for (int i = 0; i < totalPointsZero.length(); i++) {
+                                    terminal.setCursorPosition((38 + i), 12);
+                                    terminal.putCharacter(totalPointsZero.charAt(i));
+                                }
+                            } else {
+                                String totalPoints = Integer.toString(points);
+                                for (int i = 0; i < totalPoints.length(); i++) {
+                                    terminal.setCursorPosition((39 + i), 12);
+                                    terminal.putCharacter(totalPoints.charAt(i));
+                                }
                             }
                         }
                     }
 
-                    if (y <= 8) {
-                        y = 12;
+                    if (yPlayer <= 8) {
+                        yPlayer = 12;
 
-                        terminal.setCursorPosition(x, y);
+                        terminal.setCursorPosition(xPlayer, yPlayer);
                         terminal.putCharacter(player);
 
                         terminal.setCursorPosition(xOld, yOld);
@@ -504,12 +504,12 @@ public class Main {
                     }
 
 //                  Tvinga ner spelare efter hopp
-                    else if (y == 10) {
+                    else if (yPlayer == 10) {
                         jumpCount++;
                         if (jumpCount == 4) {
-                            y = 12;
+                            yPlayer = 12;
 
-                            terminal.setCursorPosition(x, y);
+                            terminal.setCursorPosition(xPlayer, yPlayer);
                             terminal.putCharacter(player);
 
                             terminal.setCursorPosition(xOld, yOld);
@@ -531,28 +531,28 @@ public class Main {
 
                 switch (type) {
                     case ArrowUp:
-                        y -= 2;
+                        yPlayer -= 2;
                         terminal.setCursorPosition(xOld, yOld);
                         terminal.putCharacter(' ');
                         break;
                     case ArrowDown:
-                        y = 12;
+                        yPlayer = 12;
                         terminal.setCursorPosition(xOld, yOld);
                         terminal.putCharacter(' ');
                         break;
                     case ArrowLeft:
-                        y = 12;
+                        yPlayer = 12;
                         terminal.setCursorPosition(xOld, yOld);
                         terminal.putCharacter(' ');
                         break;
                     case ArrowRight:
-                        y = 12;
+                        yPlayer = 12;
                         terminal.setCursorPosition(xOld, yOld);
                         terminal.putCharacter(' ');
                         break;
                 }
 
-                terminal.setCursorPosition(x, y);
+                terminal.setCursorPosition(xPlayer, yPlayer);
                 terminal.putCharacter(player);
 
                 if (c == Character.valueOf('q')) {
