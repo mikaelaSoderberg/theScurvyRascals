@@ -19,65 +19,14 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) throws Exception {
+    static int levelChoice;
 
+    public static void main(String[] args) throws Exception {
 
         DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
         Terminal terminal = terminalFactory.createTerminal();
 
-        int levelChoice = 0;
-
-        terminal.clearScreen();
-
-        String welcome = "Welcome to our JumpingGame!";
-        for (int i = 0; i < welcome.length(); i++) {
-            terminal.setCursorPosition((24 + i), 6);
-            terminal.putCharacter(welcome.charAt((i)));
-        }
-        String instruction = "Use the ArrowUp-key to jump over your enemies";
-        for (int i = 0; i < instruction.length(); i++) {
-            terminal.setCursorPosition((14 + i), 7);
-            terminal.putCharacter(instruction.charAt((i)));
-        }
-
-        String lives = " or to pick up extra lives.";
-        for (int i = 0; i < lives.length(); i++) {
-            terminal.setCursorPosition((24 + i), 8);
-            terminal.putCharacter(lives.charAt((i)));
-        }
-
-        String develop = "This game was developed by theScurvyRascals.";
-        for (int i = 0; i < develop.length(); i++) {
-            terminal.setCursorPosition((16 + i), 18);
-            terminal.putCharacter(develop.charAt((i)));
-        }
-
-        String difficulty = "But first, choose your level 1 (easy) or 2 (hard): ";
-        for (int i = 0; i < difficulty.length(); i++) {
-            terminal.setCursorPosition((12 + i), 10);
-            terminal.putCharacter(difficulty.charAt((i)));
-        }
-
-        KeyStroke keyStroke1 = null;
-        do {
-            Thread.sleep(5); // might throw InterruptedException
-            keyStroke1 = terminal.pollInput();
-        } while (keyStroke1 == null);
-
-        char c1 = keyStroke1.getCharacter(); // used Character, not char because it might be null
-
-        switch (c1) {
-            case '1':
-                levelChoice = 50;
-                break;
-            case '2':
-                levelChoice = 100;
-                break;
-            default:
-                break;
-        }
-        terminal.clearScreen();
-
+        levelChoice = welcomeScreen(terminal);
 
         //Building scenery
         int mountainLeft0x = 16;
@@ -562,5 +511,58 @@ public class Main {
             }
             terminal.flush();
         }
+    }
+
+    static int welcomeScreen(Terminal terminal) throws Exception {
+        String welcome = "Welcome to our JumpingGame!";
+        for (int i = 0; i < welcome.length(); i++) {
+            terminal.setCursorPosition((24 + i), 6);
+            terminal.putCharacter(welcome.charAt((i)));
+        }
+        String instruction = "Use the ArrowUp-key to jump over your enemies";
+        for (int i = 0; i < instruction.length(); i++) {
+            terminal.setCursorPosition((14 + i), 7);
+            terminal.putCharacter(instruction.charAt((i)));
+        }
+
+        String lives = " or to pick up extra lives.";
+        for (int i = 0; i < lives.length(); i++) {
+            terminal.setCursorPosition((24 + i), 8);
+            terminal.putCharacter(lives.charAt((i)));
+        }
+
+        String develop = "This game was developed by theScurvyRascals.";
+        for (int i = 0; i < develop.length(); i++) {
+            terminal.setCursorPosition((16 + i), 18);
+            terminal.putCharacter(develop.charAt((i)));
+        }
+
+        String difficulty = "But first, choose your level 1 (easy) or 2 (hard): ";
+        for (int i = 0; i < difficulty.length(); i++) {
+            terminal.setCursorPosition((12 + i), 10);
+            terminal.putCharacter(difficulty.charAt((i)));
+        }
+
+        KeyStroke keyStroke1 = null;
+        do {
+            Thread.sleep(5); // might throw InterruptedException
+            keyStroke1 = terminal.pollInput();
+        } while (keyStroke1 == null);
+
+        char c1 = keyStroke1.getCharacter(); // used Character, not char because it might be null
+
+        switch (c1) {
+            case '1':
+                levelChoice = 50;
+                break;
+            case '2':
+                levelChoice = 100;
+                break;
+            default:
+                break;
+        }
+        terminal.clearScreen();
+
+        return levelChoice;
     }
 }
